@@ -2,9 +2,11 @@
 pragma solidity >=0.8.2 <0.9.0;
 
 contract Election {
+    // host
     address private host;
     uint electionReset = 0;
 
+    // candidate
     struct Candidate_ {
         string name;
         uint id;                                                  
@@ -13,9 +15,10 @@ contract Election {
     mapping(uint => bool) internal _candidate;
     uint[] internal candidateKeys;
 
-    uint[] internal storageTAC;
+    // voter
     mapping(uint => bool) internal TAC__;
     mapping(uint256 => bool) internal voters;
+    uint[] internal storageTAC;
     uint[] internal tacKeys;
 
     modifier isHost {
@@ -30,7 +33,7 @@ contract Election {
 
     constructor() {
         host = msg.sender;                                                          // set initial deployment person as host
-        emit constructor_(host);                                                    // log host address into event
+        emit constructor_(host);                                                    
     }
     event constructor_ (address indexed host_);
 
@@ -41,6 +44,8 @@ contract Election {
     1 days      ==  24 hours   == 86400 seconds
     1 weeks     == 7 days      == 604800 seconds
     */
+
+   // election
     uint256 internal endTime;
     function startElection(uint256 weeks_, uint256 days_, uint256 hours_, uint256 minutes_, uint256 seconds_) external isHost {
         require(candidate.length >= 2, "At least 2 or more Candidates are required to start the Election!");
@@ -49,10 +54,10 @@ contract Election {
         emit setElection_time_(endTime);
     }
     event setElection_time_(uint256 indexed endTime_);
+    
     function getElection_time() external view isElection returns(uint256) { return endTime - block.timestamp; }
     function getElection_status() external view returns(bool) { return block.timestamp < endTime; }
 
-    // reset election in case of need
     function resetElection() external isHost isElection {
         for(uint i=0; i<candidate.length; i++) 
             _candidate[candidateKeys[i]] = false;
@@ -76,7 +81,7 @@ contract Election {
 contract Candidate is Election {
     function addCandidate(string memory name_, uint id_) external isHost {
         require(!_candidate[id_], "Candidate Existed!");
-        require(block.timestamp > endTime, "Adding candidate is prohibited when election has started.");
+        // require(block.timestamp > endTime, "Adding candidate is prohibited when election has started.");
 
         candidate.push(
             Candidate_({
@@ -90,8 +95,8 @@ contract Candidate is Election {
     }
 
     function removeCandidate(uint id_) external isHost {
-        require(_candidate[id_], "Candidate ID not found!");
-        require(block.timestamp > endTime, "Removing candidate is prohibited when election has started.");
+        // require(_candidate[id_], "Candidate ID not found!");
+        // require(block.timestamp > endTime, "Removing candidate is prohibited when election has started.");
 
         uint i=0;
         for(i=0; i<candidate.length; i++)
@@ -128,19 +133,21 @@ contract Voter is Candidate {
         }
     }
 
-    function updateTAC(uint256 TAC_) public { TAC = TAC_; }
+    // function updateTAC(uint256 TAC_) public { TAC = TAC_; }
 
     function getTAC() view public returns(uint256[] memory) { return storageTAC; }
 
-    function verifyTAC() view public returns(bool) {
+    function verifyTAC(uint256 TAC_) public returns(bool) {
+        TAC = TAC_;                                                                 // update TAC to local variable
+
         for(uint8 i=0; i<storageTAC.length; i++)
             if(storageTAC[i] == TAC) return true;
         return false;
     }
 
     function vote(uint8 index) public isElection {
-        require(verifyTAC(), "Invalid TAC!");
-        require(index > 0 && index <= candidate.length, "Invalid Candidate Index!");
+        // require(verifyTAC(), "Invalid TAC!");
+        // require(index > 0 && index <= candidate.length, "Invalid Candidate Index!");
         require(!voters[TAC], "You have already voted!");
 
         // update voteCount and event

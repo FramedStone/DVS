@@ -1,47 +1,10 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/leeweixuan/Desktop/DVS/contracts/DVS_v1.sol": {
-      "lastModificationDate": 1722956983240,
-      "contentHash": "a9ffa73f7c3f93a4d5528db9186b4404",
-      "sourceName": "contracts/DVS_v1.sol",
-      "solcConfig": {
-        "version": "0.8.2",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.8.2 <0.9.0"
-      ],
-      "artifacts": [
-        "Candidates",
-        "Election",
-        "Voters"
-      ]
-    },
-    "/Users/leeweixuan/Desktop/DVS/contracts/DVS_v2.sol": {
-      "lastModificationDate": 1723445263267,
-      "contentHash": "dc616e21b458900d471da5d00a65e63f",
-      "sourceName": "contracts/DVS_v2.sol",
+    "C:\\Users\\User\\Desktop\\DVS_contract\\DVS\\contracts\\DVS.sol": {
+      "lastModificationDate": 1723700346106,
+      "contentHash": "53a3d731e2ff5b6218cc7d634f0d6b0c",
+      "sourceName": "contracts/DVS.sol",
       "solcConfig": {
         "version": "0.8.2",
         "settings": {
